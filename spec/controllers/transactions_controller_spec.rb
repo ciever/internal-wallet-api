@@ -15,37 +15,68 @@ RSpec.describe TransactionsController, type: :controller do
 
   describe 'POST #create' do
   	context 'with valid transaction params' do
-			let(:valid_params) do
-				{
-					transaction: {
-						source: {
-							type: 'User',
-							id: user.id
-						},
-						target: {
-							type: 'Team',
-							id: team.id
-						},
-						amount: 10.00
+			context 'from one entity to another' do
+				let(:valid_params) do
+					{
+						transaction: {
+							source: {
+								type: 'User',
+								id: user.id
+							},
+							target: {
+								type: 'Team',
+								id: team.id
+							},
+							amount: 10.00
+						}
 					}
-				}
+				end
+
+				it 'creates a transaction and returns success' do
+					expect {
+						post :create, params: valid_params
+					}.to change { Transaction.count }.by(1)
+					expect(response).to have_http_status(:created)
+					expect(JSON.parse(response.body)['status']).to eq('success')
+				end
 			end
 
-      it 'creates a transaction and returns success' do
-        expect {
-          post :create, params: valid_params
-        }.to change { Transaction.count }.by(1)
-        expect(response).to have_http_status(:created)
-        expect(JSON.parse(response.body)['status']).to eq('success')
-      end
+			context 'from an external source to an entity' do
+				let(:valid_params) do
+					{
+						transaction: {
+							source: nil,
+							target: {
+								type: 'Team',
+								id: team.id
+							},
+							amount: 10.00
+						}
+					}
+				end
+
+				it 'creates a transaction and returns success' do
+					expect {
+						post :create, params: valid_params
+					}.to change { Transaction.count }.by(1)
+					expect(response).to have_http_status(:created)
+					expect(JSON.parse(response.body)['status']).to eq('success')
+				end
+			end
     end
 		
     context 'with invalid transaction params' do
       let(:invalid_params) do
         {
           transaction: {
-            source: {},
-            target: {},
+            source: {
+							type: 'invalid model',
+							id: user.id
+						},
+						target: {
+							type: 'invalid model',
+							id: team.id
+						},
             amount: 10.00
           }
         }
