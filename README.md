@@ -31,13 +31,13 @@ Each of the entities (User, Stock and Team) should have a wallet with an initial
 ```ruby
 # The Rails console should return:
 user_wallet = User.first.wallet
-user.balance # 1000.00
+user_wallet.balance # 1000.00
 
 stock_wallet = Stock.second.wallet
-stock.balance # 1000.00
+stock_wallet.balance # 1000.00
 
 team_wallet = Team.second.wallet
-team.balance # 1000.00
+team_wallet.balance # 1000.00
 ```
 5. Run the rails server in terminal (or similar) in the local project directory: 
 
