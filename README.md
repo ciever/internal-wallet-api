@@ -125,6 +125,11 @@ The request body should look something like this
 }
 ```
 
+**Note:** to check the balance of an entity wallet, run the following in the Rails console:
+```ruby
+User.first.wallet.balance # 1200.00
+```
+
 ## Specs
 
 This app uses `rspec`.
