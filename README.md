@@ -146,5 +146,5 @@ All the models, service objects, controllers have specs.
 
 This app uses no gems to make the internal wallet API function. 
 
-Information about the LatestStockPrice Gem will be available soon. 
+The latest stock price gem can be accessed here https://github.com/ciever/latest_stock_price
 
